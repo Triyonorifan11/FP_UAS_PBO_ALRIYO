@@ -16,8 +16,10 @@ void pelayanan();
 void bookingTempat();
 void pilihMenuPesan();
 void metodeBayarBank();
+
 int nomor_pesanan_note;
 string nama_pemesan_note;
+
 // simpan data menu
 // class daftar menu
 class Menu
@@ -42,6 +44,55 @@ public:
     double getharga()
     {
         return harga;
+    }
+};
+
+// class untuk overoading
+class Print
+{
+public:
+    void print(int kode_pesanan)
+    {
+        cout << "Kode Pesanan = " << kode_pesanan << endl;
+    }
+
+    void print(string nama_pemesan)
+    {
+        cout << "Pemesan = " << nama_pemesan << endl;
+    }
+
+    void print(double total_pesanan)
+    {
+        cout << "Total pesanan = Rp " << total_pesanan << endl;
+    }
+};
+
+class Counting
+{
+private:
+    int total;
+
+public:
+    Counting(int pajak = 0)
+    {
+        total = pajak;
+    }
+
+    Counting operator+(Counting const &pesanan)
+    {
+        Counting bayar;
+        bayar.total = this->total + pesanan.total;
+        return bayar;
+    }
+
+    int get_total()
+    {
+        return this->total;
+    }
+
+    void printBayar()
+    {
+        cout << "Pajak + Total Pesanan = Rp " << this->total << endl;
     }
 };
 
@@ -88,8 +139,8 @@ public:
         Db::input.close();
     }
 
-    // save repository menu,harga untuk transaksi
-    void save_fee(string namapilih, double hargapilih, int porsi)
+    // save repository menu yang dipilih,harga untuk transaksi
+    void save(string namapilih, double hargapilih, int porsi)
     {
         Db::input.open(Db::fileName, ios::app);
         Db::input << "\n"
@@ -269,32 +320,40 @@ public:
 
     void bayarpesanan()
     {
+        Print customer;
 
         double pesanan = this->bayar;
         double pajak = 0.001 * pesanan;
         double diskon = 0;
-        double total_bayar = 0;
         double bayar_pelanggan = 0;
         double kembalian = 0;
+        double total_bayar_pelanggan = 0;
 
         if (pesanan >= 100000.0)
         {
             diskon = 0.1 * pesanan;
         }
 
-        total_bayar = pajak + pesanan - diskon;
-        cout << "\n==============" << endl;
-        cout << "Nomor Pesanan = " << nomor_pesanan_note << endl;
-        cout << "Nama Pemesan = " << nama_pemesan_note << endl;
-        cout << "Total pesanan = Rp" << pesanan << endl;
+        // total_bayar = pajak + pesanan - diskon;
+        cout << "\n===================" << endl;
+        customer.print(nomor_pesanan_note);
+        customer.print(nama_pemesan_note);
+        customer.print(pesanan);
+
+        Counting total(pajak), pesan(pesanan);
+        Counting hasil = total + pesan;
+
         cout << "Pajak = Rp" << pajak << endl;
         cout << "Diskon = Rp" << diskon << endl;
-        cout << "Total yang harus dibayar = Rp" << total_bayar << endl
-             << endl;
+        // cout << "Total yang harus dibayar = Rp" << total_bayar << endl
+        //      << endl;
+        total_bayar_pelanggan = hasil.get_total() - diskon;
+        hasil.printBayar();
+        cout << "Total harus Dibayar = Rp " << total_bayar_pelanggan << endl;
         cout << "Bayar ? Rp ";
         cin >> bayar_pelanggan;
-        kembalian = bayar_pelanggan - total_bayar;
-        cout << "Kembali = Rp" << kembalian << endl;
+        kembalian = bayar_pelanggan - total_bayar_pelanggan;
+        cout << "Kembali = Rp " << kembalian << endl;
 
         remove("RepoFee.txt");
     }
@@ -511,7 +570,7 @@ void pilihMenuPesan()
     cin >> porsi;
 
     dataBase.pesanMenu(pilihPesanan, porsi);
-    repo_fee.save_fee(dataBase.getNamaMenu(), dataBase.getHargaMenu(), porsi);
+    repo_fee.save(dataBase.getNamaMenu(), dataBase.getHargaMenu(), porsi);
     repo_fee.totalpesanan();
 
     cout << "tambah pesanan ? 1(yes)/2(no) ";

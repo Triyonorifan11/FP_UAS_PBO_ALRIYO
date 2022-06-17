@@ -1,0 +1,9 @@
+
+Nasi_Pecel	12000
+Nasi_Rames	15000
+Nasi_Jagung	10000
+Nasi_Kucing	8000
+Nasi_Kuning	12000
+Nasi_Campur	13000
+Es_TehManis	5000
+Es_Jeruk	6000

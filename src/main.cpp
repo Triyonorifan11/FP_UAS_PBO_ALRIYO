@@ -159,7 +159,10 @@ public:
         string updateNama;
         double updateHarga;
 
-            while (!Db::output.eof())
+        int index = 1;
+        int flag = 0;
+
+        while (!Db::output.eof())
         {
             Db::output >> updateNama;
             Db::output >> updateHarga;

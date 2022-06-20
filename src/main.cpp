@@ -216,7 +216,8 @@ public:
             Db::output >> tampilNama;
             Db::output >> tampilHarga;
 
-            cout << index++ << "\t" << tampilNama << "\t" << tampilHarga << endl;
+            cout << index++ << "\t" << tampilNama << "\t"
+                 << "Rp " << tampilHarga << endl;
         }
 
         cout << "\nJumlah Menu: " << index - 1 << endl;
@@ -667,7 +668,7 @@ void metodeBayarBank()
     }
 }
 
-// 7. fungsi Tampil Meja dan daftar antrian
+// 7. fungsi Tampil Meja dan daftar antrian pelanggan
 void showMejaDanAntrian()
 {
     SetAntrian data_antrian;

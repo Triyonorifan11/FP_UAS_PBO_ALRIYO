@@ -47,23 +47,23 @@ public:
     }
 };
 
-// class untuk overoading
+// class untuk overloading function
 class Print
 {
 public:
     void print(int kode_pesanan)
     {
-        cout << "Kode Pesanan = " << kode_pesanan << endl;
+        cout << "Kode Pesanan \t\t= " << kode_pesanan << endl;
     }
 
     void print(string nama_pemesan)
     {
-        cout << "Pemesan = " << nama_pemesan << endl;
+        cout << "Pemesan \t\t= " << nama_pemesan << endl;
     }
 
     void print(double total_pesanan)
     {
-        cout << "Total pesanan = Rp " << total_pesanan << endl;
+        cout << "Total pesanan \t\t= Rp " << total_pesanan << endl;
     }
 };
 
@@ -92,7 +92,7 @@ public:
 
     void printBayar()
     {
-        cout << "Pajak + Total Pesanan = Rp " << this->total << endl;
+        cout << "Pajak + Total Pesanan \t= Rp " << this->total << endl;
     }
 };
 
@@ -170,9 +170,9 @@ public:
             if (indexUpdate == index - 1)
             {
                 flag = 1;
-                cout << "Masukan Nama menu update : ";
+                cout << "Nama menu : ";
                 cin >> updateNama;
-                cout << "Masukkan Harga menu update : ";
+                cout << "Harga menu : ";
                 cin >> updateHarga;
             }
             Db::input << "\n"
@@ -191,7 +191,7 @@ public:
         }
         else
         {
-            cout << "Data berhasil diupdate !! \n\n"
+            cout << "\nData Menu Anda Telah Sukses Diperbarui\n\n"
                  << endl;
             remove("Menu_restoran.txt");
             rename("temp.txt", "Menu_restoran.txt");
@@ -320,6 +320,7 @@ public:
 
     void bayarpesanan()
     {
+        system("cls");
         Print customer;
 
         double pesanan = this->bayar;
@@ -335,25 +336,29 @@ public:
         }
 
         // total_bayar = pajak + pesanan - diskon;
-        cout << "\n===================" << endl;
+        cout << "====== N O T A  P E S A N A N ======\n"
+             << endl;
         customer.print(nomor_pesanan_note);
         customer.print(nama_pemesan_note);
+        cout << "------------------------------------\n";
         customer.print(pesanan);
 
         Counting total(pajak), pesan(pesanan);
         Counting hasil = total + pesan;
 
-        cout << "Pajak = Rp" << pajak << endl;
-        cout << "Diskon = Rp" << diskon << endl;
+        cout << "Pajak \t\t\t= Rp " << pajak << endl;
+        cout << "Diskon \t\t\t= Rp " << diskon << endl;
         // cout << "Total yang harus dibayar = Rp" << total_bayar << endl
         //      << endl;
         total_bayar_pelanggan = hasil.get_total() - diskon;
         hasil.printBayar();
-        cout << "Total harus Dibayar = Rp " << total_bayar_pelanggan << endl;
-        cout << "Bayar ? Rp ";
+        cout << "------------------------------------\n";
+        cout << "Total harus Dibayar \t= Rp " << total_bayar_pelanggan << endl;
+        cout << "Dibayar \t\t= Rp ";
         cin >> bayar_pelanggan;
         kembalian = bayar_pelanggan - total_bayar_pelanggan;
-        cout << "Kembali = Rp " << kembalian << endl;
+        cout << "Kembali \t\t= Rp " << kembalian << endl;
+        cout << "\n";
 
         remove("RepoFee.txt");
     }
@@ -495,8 +500,8 @@ public:
         int i = 1;
         cout << "No";
         cout << "  Nama Pemesan";
-        cout << "  Nomer Meja";
-        cout << "  Nomer Pesanan" << endl;
+        cout << "  Nomor Meja";
+        cout << "  Kode Pesanan" << endl;
         while (utils != NULL)
         {
             cout << i++;
@@ -505,7 +510,7 @@ public:
             cout << "\t  " << utils->nomer_pesanan << endl;
             utils = utils->next;
         }
-        cout << "Jumlah data : " << count_data() << endl;
+        cout << "\nJumlah data : " << count_data() << endl;
     }
 };
 
@@ -519,8 +524,9 @@ void inputMenu()
     string namaMenu;
     double harga;
     int tipe;
-    cout << "Catatan !! jika ada spasi ganti '_'" << endl;
-    cout << "\nInput Menu" << endl;
+    cout << "===============  HALAMAN TAMBAH MENU  ==============" << endl;
+    cout << "Catatan : Tolong masukkan menu menggunakan tanda '_'" << endl;
+    cout << "\nTambah" << endl;
     cout << "Nama : ";
     cin >> namaMenu;
     cout << "Harga : ";
@@ -530,7 +536,7 @@ void inputMenu()
 
     Menu menu1 = Menu(namaMenu, harga);
     dataBase_Menu.save(menu1);
-    cout << "\n\nData tersimpan !!\n"
+    cout << "\nSelamat, Data Menu Baru Anda Telah Sukses Ditambah\n"
          << endl;
     system("pause");
 
@@ -564,16 +570,19 @@ void pilihMenuPesan()
 
     system("cls");
     dataBase.showAll();
-    cout << "\n\nPilih menu diatas : ";
+
+    cout << "\n====== F O R M U L I R  P E M E S A N A N  ======\n"
+         << endl;
+    cout << "Pilih menu diatas : ";
     cin >> pilihPesanan;
-    cout << "Banyak porsi : ";
+    cout << "Banyak porsi yang dipesan : ";
     cin >> porsi;
 
     dataBase.pesanMenu(pilihPesanan, porsi);
     repo_fee.save(dataBase.getNamaMenu(), dataBase.getHargaMenu(), porsi);
     repo_fee.totalpesanan();
 
-    cout << "tambah pesanan ? 1(yes)/2(no) ";
+    cout << "tambah pesanan ? 1(yes)/2(no) = ";
     cin >> tambah;
 
     switch (tambah)
@@ -614,9 +623,13 @@ void update()
 
     int update;
     system("cls");
+    cout << "===============  HALAMAN PERBARUI MENU  ==============" << endl
+         << endl;
     dataBase.showAll();
-    cout << "\n\nPilih nomer data yang akan di update = ";
+    cout << "\nCatatan : Tolong perbarui menu menggunakan tanda '_'" << endl;
+    cout << "\nPilih nomor menu yang akan diperbarui : ";
     cin >> update;
+    cout << "\nPerbarui : " << endl;
 
     dataBase.updateMenu(update);
     // dataBase.showAll();
@@ -631,8 +644,10 @@ void deleteItem()
 
     int selected;
     system("cls");
+    cout << "===============  HALAMAN HAPUS MENU  ==============\n"
+         << endl;
     dataBase.showAll();
-    cout << "\n\nPilih nomer data yang akan di Hapus = ";
+    cout << "\n\nPilih nomor menu yang akan di Hapus = ";
     cin >> selected;
 
     dataBase.deleteMenu(selected);
@@ -670,6 +685,7 @@ void showMejaDanAntrian()
 // booking tempat
 void bookingTempat()
 {
+    system("cls");
     SetAntrian update_data;
     string nama_pemesan;
     int nomer_meja;
@@ -677,18 +693,20 @@ void bookingTempat()
 
     showMejaDanAntrian();
 
-    cout << "Booking Meja" << endl;
+    cout << "\n====== B O O K I N G  M E J A ======" << endl;
+    cout << "\nIdentitas ";
     cout << "Nama Pemesan : ";
     cin >> nama_pemesan;
     cout << "Nomor pesanan : " << nomor_pesanan << endl;
     nomor_pesanan_note = nomor_pesanan;
     nama_pemesan_note = nama_pemesan;
-    cout << "Nomer Meja : ";
+    cout << "Nomor Meja : ";
     cin >> nomer_meja;
     int posisi = nomer_meja;
 
     update_data.update_dataPosisi(nama_pemesan, nomor_pesanan, nomer_meja, posisi);
-    cout << "Booking Tempat selesai" << endl;
+    cout << "\nBooking Tempat Sukses Dilakukan\n"
+         << endl;
     system("pause");
     // pelayanan();
 }
@@ -744,13 +762,16 @@ void mainMenu()
 
     system("cls");
     int input;
-    cout << "RESTO PIXEL.ID" << endl;
-    cout << "Pilih Fitur aplikasi" << endl;
-    cout << "1. Input Menu" << endl;
+    cout << "===========  H A L A M A N  A D M I N  ===========" << endl;
+    cout << "SILAHKAN PILIH SESUAI DENGAN SITUASI ANDA SEKARANG" << endl;
+    cout << "\t\tRESTORAN PIXEL.ID" << endl
+         << endl;
+    cout << "1. Tambah Menu" << endl;
     cout << "2. Lihat Menu" << endl;
-    cout << "3. Update Menu" << endl;
+    cout << "3. Perbarui Menu" << endl;
     cout << "4. Hapus Menu" << endl;
-    cout << "5. Dashboard" << endl;
+    cout << "5. Halaman Utama" << endl
+         << endl;
     cout << "Pilih fitur: ";
     cin >> input;
 
@@ -788,25 +809,35 @@ void pelayanan()
 
     system("cls");
     int input;
-    cout << "RESTO PIXEL.ID" << endl;
-    cout << "Pilih Fitur Pelayanan" << endl;
-    cout << "1. Pesan Menu" << endl;
-    cout << "2. Liat Antrian" << endl;
-    cout << "3. Hapus List Antrian" << endl;
-    cout << "4. Dashboard" << endl
+    cout << "===========  H A L A M A N  P E L A Y A N A N  ===========" << endl;
+    cout << "SILAHKAN PILIH SESUAI DENGAN SITUASI ANDA SEKARANG" << endl;
+    cout << "\t\t   RESTO PIXEL.ID" << endl
          << endl;
-    cout << "Pilih Pelayanan = ";
+
+    cout << "1. Pesan Menu" << endl;
+    cout << "2. Lihat Antrian" << endl;
+    cout << "3. Hapus Daftar Antrian" << endl;
+    cout << "4. Halaman Utama" << endl;
+    cout << "Pilih : ";
     cin >> input;
 
     switch (input)
     {
     case 1:
+        system("cls");
+        cout << "===========  H A L A M A N  P E L A Y A N A N  ===========" << endl;
+        cout << "SILAHKAN PILIH SESUAI DENGAN SITUASI ANDA SEKARANG" << endl;
+        cout << "\t\t   RESTO PIXEL.ID" << endl
+             << endl;
         int pilih;
-        cout << "1. Makan di tempat || 2. Take Away" << endl;
+        cout << "====== P E S A N  M E N U ======" << endl;
+        cout << "Pilihan layanan" << endl;
+        cout << "1. Makan di tempat\n2. Bawa pulang" << endl;
         cout << "pilih : ";
         cin >> pilih;
         if (pilih == 1)
         {
+            cout << "\n";
             bookingTempat();
             pilihMenuPesan();
         }
@@ -814,7 +845,7 @@ void pelayanan()
         {
             string nama_pemesan;
             int nomor_pesanan = rand() % 1000 + 1000;
-            cout << "Nama Pemesan : ";
+            cout << "\nIdentias Nama Pemesan : ";
             cin >> nama_pemesan;
             cout << "Nomor pesanan : " << nomor_pesanan << endl;
             nomor_pesanan_note = nomor_pesanan;
@@ -825,11 +856,13 @@ void pelayanan()
         break;
 
     case 2:
+        system("cls");
         showMejaDanAntrian();
         system("pause");
         pelayanan();
         break;
     case 3:
+        system("cls");
         delete_set_booking();
         pelayanan();
         break;
@@ -849,13 +882,17 @@ void dashboard()
 {
     system("cls");
     int input;
-    cout << "RESTO PIXEL.ID" << endl;
-    cout << "====Dashboard====" << endl;
-    cout << "1. Halaman Admin" << endl;
-    cout << "2. Pelayanan" << endl;
-    cout << "3. Close" << endl;
+    cout << "       SELAMAT DATANG DI RESTO PIXEL.ID" << endl;
+    cout << "SILAHKAN PILIH SESUAI DENGAN SITUASI ANDA SEKARANG" << endl
+         << endl;
+    cout << "========== HALAMAN UTAMA PIXEL.ID ==========" << endl
+         << endl;
+    cout << "1. Admin" << endl;
+    cout << "2. Kasir" << endl;
+    cout << "3. Close" << endl
+         << endl;
 
-    cout << "Pilih Fitur = ";
+    cout << "Masukkan Pilihan = ";
     cin >> input;
 
     switch (input)
@@ -870,7 +907,7 @@ void dashboard()
         close();
         break;
     default:
-        cout << "Salah input" << endl;
+        cout << "MA'AF ANDA SALAH MEMASUKKAN PILIHAN, MOHON PILIH DENGAN BENAR" << endl;
         system("pause");
         dashboard();
         break;

@@ -310,10 +310,10 @@ public:
             Db::output >> fee;
             Db::output >> porsi;
             Db::output >> total_fee;
-            cout << index++ << " " << namaPilih << " " << fee << " x " << porsi << " = Rp" << total_fee << endl;
+            cout << index++ << " " << namaPilih << " " << fee << " x " << porsi << " = Rp " << total_fee << endl;
             bayar = bayar + total_fee;
         }
-        cout << "\ntotal Pesanan = Rp" << bayar << endl;
+        cout << "\ntotal Pesanan = Rp " << bayar << endl;
         Db::bayar = bayar;
         Db::output.close();
     }
@@ -335,7 +335,6 @@ public:
             diskon = 0.1 * pesanan;
         }
 
-        // total_bayar = pajak + pesanan - diskon;
         cout << "====== N O T A  P E S A N A N ======\n"
              << endl;
         customer.print(nomor_pesanan_note);
@@ -348,8 +347,7 @@ public:
 
         cout << "Pajak \t\t\t= Rp " << pajak << endl;
         cout << "Diskon \t\t\t= Rp " << diskon << endl;
-        // cout << "Total yang harus dibayar = Rp" << total_bayar << endl
-        //      << endl;
+
         total_bayar_pelanggan = hasil.get_total() - diskon;
         hasil.printBayar();
         cout << "------------------------------------\n";
@@ -548,12 +546,8 @@ void tampilMenu()
 {
     system("cls");
     Db dataBase = Db("Menu_restoran.txt");
-    // Db data_minum = Db("Minum_restoran.txt");
-    // tampilkan data
-    // cout << "Daftar Makanan" << endl;
+
     dataBase.showAll();
-    // cout << "\n\nDaftar Minuman" << endl;
-    // data_minum.showAll();
 
     system("Pause");
     mainMenu();

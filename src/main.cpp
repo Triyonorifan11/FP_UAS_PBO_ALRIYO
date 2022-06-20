@@ -431,7 +431,7 @@ public:
         tail = head;
     }
 
-    // jumlahData
+    // jumlahData antrian
     int count_data()
     {
         utils = head;
@@ -518,7 +518,6 @@ void inputMenu()
 {
     system("cls");
     Db dataBase_Menu = Db("Menu_restoran.txt");
-    // Db dataBase_Minum = Db("Minum_restoran.txt");
 
     string namaMenu;
     double harga;
@@ -530,8 +529,6 @@ void inputMenu()
     cin >> namaMenu;
     cout << "Harga : ";
     cin >> harga;
-    // cout << "Pilih Tipe = 1(Makanan) atau 2(Minuman) : ";
-    // cin >> tipe;
 
     Menu menu1 = Menu(namaMenu, harga);
     dataBase_Menu.save(menu1);

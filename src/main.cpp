@@ -248,6 +248,7 @@ public:
                 Db::input << "\t" << hapusHarga;
             }
         }
+
         Db::output.close();
         Db::input.close();
 

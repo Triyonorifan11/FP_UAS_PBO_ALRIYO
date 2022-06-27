@@ -7,5 +7,9 @@ Nasi_Kuning	12000
 Nasi_Campur	13000
 Es_Jeruk	6000
 Mie_Ayam_Spl	14000
-Nasi_Gila	15000
 Nasi_sate	17500
+Nasi_Rames  20000
+Nasi_Jagung 21500
+Nasi_Soto   17000
+Es_Jambu    9000
+Es_Teh_manis   5000
